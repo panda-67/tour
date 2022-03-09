@@ -17,8 +17,8 @@ return new class extends Migration
     {
         Schema::create('inn_tour', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Inn::class)->constrained();
-            $table->foreignIdFor(Tour::class)->constrained();
+            $table->foreignIdFor(Inn::class);
+            $table->foreignIdFor(Tour::class);
             $table->timestamps();
         });
     }

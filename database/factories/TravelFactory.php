@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tour>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Travel>
  */
-class TourFactory extends Factory
+class TravelFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,9 +17,8 @@ class TourFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->text(),
-            'description' => $this->faker->paragraph(1),
-            'user_id' => rand(1,5),
+            'name' => $this->faker->address(),
+            'price' => rand(10000,30000)
         ];
     }
 }

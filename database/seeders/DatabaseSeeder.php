@@ -14,8 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory(10)->create();
-        \App\Models\Inn::factory(30)->create();
-        $this->call([TourSeeder::class]);        
+        \App\Models\User::factory(5)->create();
+        \App\Models\Inn::factory(70)->create();
+        \App\Models\Travel::factory(70)->create();
+        $this->call([TourSeeder::class]);
     }
 }

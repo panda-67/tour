@@ -45,27 +45,8 @@
                   class="text-sm text-red-700"
                 >
                   {{ $page.props.errors.name }}
-                </div>
-                <!-- <select
-                  v-model="form.inn"
-                  name="inn"
-                  class="select select-bordered w-full max-w-md"
-                >
-                  <option
-                    v-for="inn in inns"
-                    :key="inn.id"
-                    :value="inn.id"
-                  >
-                    {{ inn.name }}
-                  </option>
-                </select>
-                <div
-                  v-if="$page.props.errors.inn"
-                  class="text-sm text-red-700"
-                >
-                  {{ $page.props.errors.inn }}
-                </div> -->
-                <button type="submit" class="btn btn-sm btn-accent">
+                </div>               
+                <button type="submit" class="btn btn-sm btn-accent w-max">
                   Save
                 </button>
               </div>

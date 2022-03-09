@@ -41,6 +41,7 @@
           </div>
           <Link
             :href="route('tour.create')"
+            as="button"
             class="btn btn-sm btn-ghost text-accent capitalize"
           >
             Create New

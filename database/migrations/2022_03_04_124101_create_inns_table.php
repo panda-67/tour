@@ -17,6 +17,7 @@ return new class extends Migration
         Schema::create('inns', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->decimal('price', 9, 2);
             $table->timestamps();
         });
     }

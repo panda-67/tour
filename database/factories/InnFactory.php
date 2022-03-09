@@ -18,6 +18,7 @@ class InnFactory extends Factory
     {
         return [
             'name' => $this->faker->company(),
+            'price' => rand(20000,50000)
         ];
     }
 }

@@ -5,18 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Inn extends Model
+class Travel extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'prive',
+        'price',
     ];
 
     public function tours()
     {
-        return $this->belongsToMany(Tour::class)
-            ->as('kerupuk');
+        return $this->belongsToMany(Tour::class, 'inn_tour', 'inn_id', 'tour_id');
     }
 }

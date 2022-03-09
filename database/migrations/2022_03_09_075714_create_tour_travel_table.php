@@ -1,6 +1,7 @@
 <?php
 
-use App\Models\User;
+use App\Models\Tour;
+use App\Models\Travel;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,12 +15,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tours', function (Blueprint $table) {
+        Schema::create('tour_travel', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
-            $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
-            $table->timestampsTz();
+            $table->foreignIdFor(Travel::class);
+            $table->foreignIdFor(Tour::class);
+            $table->timestamps();
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tours');
+        Schema::dropIfExists('tour_travel');
     }
 };

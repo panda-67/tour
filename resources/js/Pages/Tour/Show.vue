@@ -1,30 +1,22 @@
 <script setup>
   import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
   import { Inertia } from "@inertiajs/inertia";
-  import { Head, useForm } from "@inertiajs/inertia-vue3";
+  import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
+  import { computed } from "vue";
 
   let form = useForm({
-    ainn: null,
+    inn: null,
   });
 
   let submit = () => {
-    Inertia.post(route("plan.add", Inertia.page.props.tour), form, {
+    Inertia.post(route("inn.add", Inertia.page.props.tour), form, {
       onFinish: () => form.reset(),
+      preserveScroll: true,
     });
   };
 
-  let remove = () => {
-    Inertia.put(
-      route("plan.remove", Inertia.page.props.inns, Inertia.page.props.tour),
-      form,
-      {
-        preserveScroll: true,
-      }
-    );
-  };
-
   defineProps({
-    allInn: Object,
+    selectInns: Object,
     inns: Object,
     tour: Object,
   });
@@ -41,27 +33,29 @@
     </template>
     <div class="pt-6">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <label for="ainn" class="label">
+        <label for="inn" class="label">
           <span class="label-text">Pick the best inn in town</span>
         </label>
         <form @submit.prevent="submit" class="flex">
           <div class="form-control w-full max-w-xs">
             <select
-              v-model="form.ainn"
-              name="ainn"
+              v-model="form.inn"
+              name="inn"
               class="select select-accent select-bordered max-w-md"
             >
-              <option v-for="ainn in allInn" :key="ainn.id" :value="ainn.id">
-                {{ ainn.name }}
+              <option
+                v-for="selectedinn in selectInns"
+                :key="selectedinn.id"
+                :value="selectedinn.id"
+              >
+                {{ selectedinn.name }}
               </option>
             </select>
           </div>
-          <button type="submit" class="btn ml-2 btn-accent">
-            Add
-          </button>
+          <button type="submit" class="btn ml-2 btn-accent">Add</button>
         </form>
-        <div v-if="$page.props.errors.ainn" class="mt-2 text-sm text-red-700">
-          {{ $page.props.errors.ainn }}
+        <div v-if="$page.props.errors.inn" class="mt-2 text-sm text-red-700">
+          {{ $page.props.errors.inn }}
         </div>
       </div>
     </div>
@@ -69,44 +63,41 @@
     <div class="py-8">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-          <div class="mx-1 px-3 my-3 max-w-2xl">
-            <div v-for="inn in inns" :key="inn.id" class="my-4">
-              <button @click="remove" type="remove">
+          <div class="mx-1 px-3 my-3 min-h-6">
+            <div
+              v-for="inn in inns"
+              :key="inn.id"
+              class="my-4 flex items-center space-x-2 max-w-lg"
+            >
+              <Link
+                :href="route('inn.remove', [inn, tour])"
+                method="post"
+                as="button"
+                preserve-scroll
+              >
                 <svg
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 315 315"
-                  xmlns:xlink="http://www.w3.org/1999/xlink"
-                  enable-background="new 0 0 315 315"
+                  viewBox="0 0 197.516 197.516"
+                  style="enable-background: new 0 0 197.516 197.516"
+                  xml:space="preserve"
                   class="
                     fill-current
-                    h-9
-                    -mb-3
-                    mx-1
-                    px-1
-                    py-2
+                    h-7
+                    p-1
                     border
                     rounded-md
-                    hover:bg-gray-600 hover:text-gray-200
+                    hover:bg-gray-500 hover:text-gray-100
+                    text-gray-500
                   "
                 >
-                  <g>
-                    <path
-                      d="m256.774,23.942h-64.836v-6.465c0-9.636-7.744-17.477-17.263-17.477h-34.348c-9.521,0-17.266,7.841-17.266,17.478v6.465h-64.835c-9.619,0-17.445,7.76-17.445,17.297v11.429c0,7.168 4.42,13.33 10.698,15.951 1.989,39.623 13.5,231.193 14.018,239.801 0.222,3.696 3.284,6.58 6.987,6.58h170.033c3.703,0 6.766-2.884 6.987-6.58 0.518-8.607 12.028-200.178 14.018-239.801 6.278-2.621 10.698-8.783 10.698-15.951v-11.43c5.68434e-14-9.537-7.826-17.297-17.446-17.297zm-119.713-6.464c0-1.918 1.465-3.478 3.266-3.478h34.348c1.8,0 3.264,1.56 3.264,3.478v6.465h-40.877v-6.465zm-82.282,23.761c0-1.818 1.546-3.297 3.445-3.297h198.549c1.899,0 3.445,1.478 3.445,3.297v11.429c0,1.819-1.546,3.299-3.445,3.299h-198.548c-1.899,0-3.445-1.479-3.445-3.299v-11.429zm181.143,259.761h-156.848c-2.055-34.247-11.479-191.674-13.51-231.033h183.867c-2.031,39.359-11.454,196.786-13.509,231.033z"
-                    />
-                    <path
-                      d="m157.5,95.125c-3.866,0-7,3.134-7,7v176.109c0,3.866 3.134,7 7,7 3.866,0 7-3.134 7-7v-176.109c0-3.866-3.134-7-7-7z"
-                    />
-                    <path
-                      d="m110.2,102.04c-0.202-3.86-3.507-6.837-7.355-6.625-3.86,0.201-6.827,3.494-6.625,7.355l9.182,175.829c0.195,3.736 3.285,6.635 6.984,6.635 0.123,0 0.247-0.003 0.371-0.01 3.86-0.201 6.827-3.494 6.625-7.355l-9.182-175.829z"
-                    />
-                    <path
-                      d="m212.155,95.415c-3.899-0.223-7.153,2.764-7.355,6.625l-9.184,175.829c-0.202,3.861 2.765,7.154 6.625,7.355 0.125,0.007 0.248,0.01 0.371,0.01 3.698,0 6.789-2.898 6.984-6.635l9.184-175.829c0.202-3.861-2.764-7.154-6.625-7.355z"
-                    />
-                  </g>
+                  <path
+                    d="M68.758,170.083V72.649h15v97.434H68.758z M128.758,72.649h-15v97.434h15V72.649z M140.539,0v12.631h34.885v47.746h-10.525  v137.139H32.617V60.377H22.092V12.631h34.883V0H140.539z M149.898,60.377H47.617v122.139h102.281V60.377z M125.539,27.631V15H71.975  v12.631H37.092v17.585h123.332V27.631H125.539z"
+                  />
                 </svg>
-              </button>
-              {{ inn.name }}
+              </Link>
+              <div class="flex justify-between w-full">
+                <p>{{ inn.name }}</p>
+                <p>{{ inn.price }}</p>
+              </div>
             </div>
           </div>
         </div>

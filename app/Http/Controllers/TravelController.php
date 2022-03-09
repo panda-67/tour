@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Inn;
 use App\Models\Tour;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 
-class TourController extends Controller
+class TravelController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +14,7 @@ class TourController extends Controller
      */
     public function index()
     {
-        $tours = Tour::with('users:id,name')->paginate(10);       
-
-        return Inertia::render('Tour/Index', compact('tours'));
+        //
     }
 
     /**
@@ -30,7 +24,7 @@ class TourController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Tour/Create');
+        //
     }
 
     /**
@@ -41,13 +35,7 @@ class TourController extends Controller
      */
     public function store(Request $request)
     {
-        $attr = $request->validate([
-            'name' => 'required',
-        ]);
-        $attr['user_id'] = Auth::user()->id;
-        Tour::create($attr);
-
-        return to_route('dashboard')->with('message', 'Tour add successfuly!');
+        //
     }
 
     /**
@@ -58,14 +46,8 @@ class TourController extends Controller
      */
     public function show(Tour $tour)
     {
-        $selectInns = Inn::orderBY('name')->get();
-
-        $inns = Inn::whereHas('tours', function (Builder $query) use ($tour) {
-            $query->where('tour_id', $tour->id);
-        })->orderBy("name", "asc")->get();
-
-        return Inertia::render('Tour/Show', compact('tour', 'selectInns', 'inns'));
-    }   
+        //
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -75,7 +57,7 @@ class TourController extends Controller
      */
     public function edit(Tour $tour)
     {
-        return Inertia::render('Tour/Edit', compact('tour'));
+        //
     }
 
     /**
@@ -87,13 +69,7 @@ class TourController extends Controller
      */
     public function update(Request $request, Tour $tour)
     {
-        $attr = $request->validate([
-            'name' => 'required',
-        ]);
-        $attr['user_id'] = Auth::user()->id;
-        // dd($attr);
-        Tour::where('id', $tour->id)->update($attr);
-        return to_route('dashboard')->with('message', 'Tour update successfuly!');
+        //
     }
 
     /**
@@ -104,8 +80,6 @@ class TourController extends Controller
      */
     public function destroy(Tour $tour)
     {
-        Tour::destroy($tour->id);
-        return to_route('dashboard')
-            ->withSuccess(__('Tour deleted successfully.'));
+        //
     }
 }

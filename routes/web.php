@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\PlanController;
 use App\Http\Controllers\TourController;
+use App\Models\Inn;
+use App\Models\Tour;
 use App\Models\User;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -33,25 +36,19 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::controller(TourController::class)->group(function () {
-    Route::get('/tours', 'index')->name('tour.index');
-    Route::get('/tours/create', 'create')->middleware('auth')
-        ->name('tour.create');
-    Route::post('/tours', 'store')
-        ->name('tour.store');
-    Route::get('/tours/{tour}/', 'show')->middleware('auth')
-        ->name('tour.show');
-    Route::put('/tours/{inns}', 'remove_plan')
-        ->name('plan.remove');
-    Route::post('/tours/{tour}/', 'plan')
-        ->name('plan.add');
-    Route::get('/tours/{tour}/edit', 'edit')->middleware('auth')
-        ->name('tour.edit');
-    Route::patch('/tours/{tour}', 'update')
-        ->name('tour.update');
-    Route::delete('/tours/{tour}', 'destroy')->middleware('auth')
-        ->name('tour.destroy');
+    Route::name('tour.index')->get('/tours', 'index');
+    Route::name('tour.create')->get('/tours/create', 'create')->middleware('auth');
+    Route::name('tour.store')->post('/tours', 'store');
+    Route::name('tour.show')->get('/tours/{tour}/', 'show')->middleware('auth');
+    Route::name('tour.edit')->get('/tours/{tour}/edit', 'edit')->middleware('auth');
+    Route::name('tour.update')->patch('/tours/{tour}', 'update');
+    Route::name('tour.destroy')->delete('/tours/{tour}', 'destroy')->middleware('auth');
+});
+
+Route::controller(PlanController::class)->group(function () {
+    Route::name('inn.add')->post('/plans/{tour}/add', 'innAdd');
+    Route::name('inn.remove')->post('/plans/{inns}/{tour}', 'innRemove');
 });
 
 // Route::resource('tour', TourController::class);
-
 require __DIR__ . '/auth.php';

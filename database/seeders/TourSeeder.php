@@ -15,12 +15,14 @@ class TourSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Tour::factory(20)->create();
+        \App\Models\Tour::factory(10)->create();
 
         foreach (Tour::all() as $tour)
         {
-            $inns = \App\Models\Inn::all()->take(rand(1,15))->pluck('id');
-            $tour->inns()->attach($inns);
+            $inn = \App\Models\Inn::all()->take(rand(1,15))->pluck('id');
+            $travel = \App\Models\Travel::all()->take(rand(1,15))->pluck('id');
+            $tour->inns()->attach($inn);
+            $tour->travels()->attach($travel);
         }
     }
 }
