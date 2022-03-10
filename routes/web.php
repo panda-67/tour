@@ -46,9 +46,13 @@ Route::controller(TourController::class)->group(function () {
 });
 
 Route::controller(PlanController::class)->group(function () {
-    Route::name('inn.add')->post('/plans/{tour}/add', 'innAdd');
-    Route::name('inn.remove')->post('/plans/{inns}/{tour}', 'innRemove');
+    Route::name('inn.add')->post('/inns/{tour}', 'innAdd');
+    Route::name('inn.remove')->post('/inns/{inns}/{tour}', 'innRemove');
+    Route::name('travel.add')->post('/travels/{tour}', 'travelAdd');
+    Route::name('travel.remove')->post('/travels/{travels}/{tour}', 'travelRemove');
 });
+
+
 
 // Route::resource('tour', TourController::class);
 require __DIR__ . '/auth.php';

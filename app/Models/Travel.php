@@ -16,6 +16,6 @@ class Travel extends Model
 
     public function tours()
     {
-        return $this->belongsToMany(Tour::class, 'inn_tour', 'inn_id', 'tour_id');
+        return $this->belongsToMany(Tour::class, 'tour_travel', 'travel_id', 'tour_id');
     }
 }

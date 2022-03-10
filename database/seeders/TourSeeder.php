@@ -20,8 +20,9 @@ class TourSeeder extends Seeder
         foreach (Tour::all() as $tour)
         {
             $inn = \App\Models\Inn::all()->take(rand(1,15))->pluck('id');
-            $travel = \App\Models\Travel::all()->take(rand(1,15))->pluck('id');
             $tour->inns()->attach($inn);
+            
+            $travel = \App\Models\Travel::all()->take(rand(1,15))->pluck('id');
             $tour->travels()->attach($travel);
         }
     }

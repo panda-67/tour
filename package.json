@@ -26,6 +26,7 @@
         "vue-loader": "^16.1.2"
     },
     "dependencies": {
+        "@coders-tm/vue-number-format": "^2.1.11",
         "daisyui": "^2.2.2"
     }
 }

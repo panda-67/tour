@@ -1,5 +1,6 @@
 <script setup>
   import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
+  import RemoveButton from "@/Components/RemoveButton.vue";
   import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 
   defineProps({
@@ -90,10 +91,11 @@
                   method="delete"
                   as="button"
                   type="button"
-                  class="btn btn-sm btn-warning"
                   preserve-scroll
                 >
-                  Delete
+                  <RemoveButton
+                    class="text-black hover:bg-red-600 border-none"
+                  />
                 </Link>
               </div>
             </div>

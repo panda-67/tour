@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Inn;
 use App\Models\Tour;
+use App\Models\Travel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,7 @@ class TourController extends Controller
      */
     public function index()
     {
-        $tours = Tour::with('users:id,name')->paginate(10);       
+        $tours = Tour::with('users:id,name')->paginate(10);
 
         return Inertia::render('Tour/Index', compact('tours'));
     }
@@ -64,8 +65,30 @@ class TourController extends Controller
             $query->where('tour_id', $tour->id);
         })->orderBy("name", "asc")->get();
 
-        return Inertia::render('Tour/Show', compact('tour', 'selectInns', 'inns'));
-    }   
+        $sumInns = Inn::whereHas('tours', function (Builder $query) use ($tour) {
+            $query->where('tour_id', $tour->id);
+        })->sum('price');
+
+        $selectTravels = Travel::orderBY('name')->get();
+
+        $travels = Travel::whereHas('tours', function (Builder $query) use ($tour) {
+            $query->where('tour_id', $tour->id);
+        })->orderBy("name", "asc")->get();
+
+        $sumTravels = Travel::whereHas('tours', function (Builder $query) use ($tour) {
+            $query->where('tour_id', $tour->id);
+        })->sum('price');
+
+        return Inertia::render('Tour/Show', compact(
+            'tour',
+            'selectInns',
+            'inns',
+            'sumInns',
+            'selectTravels',
+            'travels',
+            'sumTravels'
+        ));
+    }
 
     /**
      * Show the form for editing the specified resource.
