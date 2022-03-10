@@ -4,6 +4,19 @@
   import { Inertia } from "@inertiajs/inertia";
   import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
 
+  defineProps({
+    tour: Object,
+    sumTour: Number,
+
+    selectInns: Object,
+    inns: Object,
+    sumInns: Object,
+
+    selectTravels: Object,
+    travels: Object,
+    sumTravels: Object,
+  });
+
   let form = useForm({
     inn: null,
   });
@@ -31,18 +44,6 @@
     currency: "IDR",
     minimumFractionDigits: 2,
   });
-
-  defineProps({
-    tour: Object,
-    
-    selectInns: Object,
-    inns: Object,
-    sumInns: Object,
-
-    selectTravels: Object,
-    travels: Object,
-    sumTravels: Object,
-  });
 </script>
 
 <template>
@@ -50,16 +51,22 @@
 
   <BreezeAuthenticatedLayout>
     <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+      <h2 class="font-semibold text-xl leading-tight">
         {{ tour.name }}
       </h2>
+      <h2 class="inline-flex items-center">
+        Total for Tour
+        <span class="font-bold text-lg ml-2">{{
+          formatter.format(sumTour)
+        }}</span>
+      </h2>
     </template>
-    <div>
+    <div class="flex flex-col md:flex-row md:space-x-2 lg:px-4 lg:justify-evenly text-sm md:text-base">
       <div>
-        <div class="pt-6">
-          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="pt-4 px-4">
+          <div class="max-w-7xl mx-auto">
             <label for="inn" class="label">
-              <span class="label-text">Pick the best inn in town</span>
+              <span class="label-text text-lg font-semibold">Pick the best inn in town</span>
             </label>
             <form @submit.prevent="submit" class="flex">
               <div class="form-control w-full max-w-xs">
@@ -89,7 +96,7 @@
         </div>
 
         <div class="py-8">
-          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+          <div class="max-w-7xl mx-auto">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
               <div class="mx-1 px-3 my-3 min-h-6">
                 <div class="ml-12">
@@ -105,6 +112,7 @@
                     method="post"
                     as="button"
                     preserve-scroll
+                    class="delete-link"
                   >
                     <RemoveButton />
                   </Link>
@@ -120,13 +128,13 @@
         </div>
       </div>
       <div>
-        <div class="pt-6">
-          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="pt-4 px-4">
+          <div class="max-w-7xl mx-auto">
             <label for="travel" class="label">
-              <span class="label-text">Pick the best travel in town</span>
+              <span class="label-text text-lg font-semibold">Pick the best travel in town</span>
             </label>
             <form @submit.prevent="submitTravel" class="flex">
-              <div class="form-control w-full max-w-xs">
+              <div class="form-control max-w-xs">
                 <select
                   v-model="travelform.travel"
                   name="travel"
@@ -141,7 +149,9 @@
                   </option>
                 </select>
               </div>
-              <button type="submitTravel" class="btn ml-2 btn-accent">Add</button>
+              <button type="submit" class="btn ml-2 btn-accent">
+                Add
+              </button>
             </form>
             <div
               v-if="$page.props.errors.travel"
@@ -153,7 +163,7 @@
         </div>
 
         <div class="py-8">
-          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+          <div class="max-w-7xl mx-auto">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
               <div class="mx-1 px-3 my-3 min-h-6">
                 <div class="ml-12">
@@ -167,7 +177,9 @@
                   <Link
                     :href="route('travel.remove', [travel, tour])"
                     method="post"
+                    as="button"
                     preserve-scroll
+                    class="delete"
                   >
                     <RemoveButton />
                   </Link>

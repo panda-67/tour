@@ -15,7 +15,7 @@ class TourSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Tour::factory(10)->create();
+        \App\Models\Tour::factory(15)->create();
 
         foreach (Tour::all() as $tour)
         {

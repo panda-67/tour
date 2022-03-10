@@ -44,11 +44,12 @@ class TourController extends Controller
     {
         $attr = $request->validate([
             'name' => 'required',
+            'description' => 'nullable',
         ]);
         $attr['user_id'] = Auth::user()->id;
         Tour::create($attr);
 
-        return to_route('dashboard')->with('message', 'Tour add successfuly!');
+        return back()->with('message', 'Tour add successfuly!');
     }
 
     /**
@@ -79,8 +80,11 @@ class TourController extends Controller
             $query->where('tour_id', $tour->id);
         })->sum('price');
 
+        $sumTour = $sumInns + $sumTravels;
+
         return Inertia::render('Tour/Show', compact(
             'tour',
+            'sumTour',
             'selectInns',
             'inns',
             'sumInns',

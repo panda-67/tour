@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\PlanController;
-use App\Http\Controllers\TourController;
 use App\Models\Inn;
 use App\Models\Tour;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Response;
+use App\Http\Controllers\PlanController;
+use App\Http\Controllers\TourController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,10 +29,11 @@ Route::get('/', function () {
     ]);
 })->name('welcome');
 
-Route::get('/dashboard', function () {
+Route::get('/dashboard', function (Request $request) {
 
     $id = Auth::user()->id;
     $users = User::with('tours')->find($id);
+    
     return Inertia::render('Dashboard', compact('users'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 

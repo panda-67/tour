@@ -52,7 +52,6 @@
               </div>
             </form>
           </div>
-          <!-- <div v-for="inn in inns" :key="inn.id">{{ inn.name }}</div> -->
         </div>
       </div>
     </div>

@@ -203,6 +203,12 @@
         >
           Dashboard
         </BreezeResponsiveNavLink>
+        <BreezeResponsiveNavLink
+          :href="route('tour.index')"
+          :active="route().current('tour.index')"
+        >
+          Index
+        </BreezeResponsiveNavLink>
       </div>
 
       <!-- Responsive Settings Options -->

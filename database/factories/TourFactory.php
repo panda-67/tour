@@ -17,8 +17,8 @@ class TourFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->text(),
-            'description' => $this->faker->paragraph(1),
+            'name' => $this->faker->sentence(),
+            'description' => $this->faker->paragraph(5),
             'user_id' => rand(1,5),
         ];
     }
