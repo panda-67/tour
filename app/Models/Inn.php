@@ -11,7 +11,7 @@ class Inn extends Model
 
     protected $fillable = [
         'name',
-        'prive',
+        'price',
     ];
 
     public function tours()
